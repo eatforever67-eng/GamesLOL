@@ -4,174 +4,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Tab Cloaking Elements -->
+    <!-- MonkeyGG Stealth Tab Cloak Settings -->
     <title id="tab-title">Classes</title>
     <link id="tab-icon" rel="icon" type="image/png" href="https://gstatic.com">
 
     <style>
+        /* MonkeyGG Dark Theme Interface Colors */
         * { box-sizing: border-box; }
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            font-family: 'Segoe UI', system-ui, sans-serif; background-color: #121212; color: white;
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background-color: #0f0f12; color: #ffffff;
             overflow: hidden; display: flex; flex-direction: column;
         }
 
-        /* Top Stealth Bar */
-        .top-bar {
-            background-color: #1e1e1e; padding: 10px 20px;
+        /* Top Bar Interface */
+        .top-navbar {
+            background-color: #16161c; padding: 12px 25px;
             display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 2px solid #2d2d2d; z-index: 100;
+            border-bottom: 1px solid #23232f; z-index: 100;
         }
-        .brand { font-weight: bold; color: #4CAF50; cursor: pointer; }
-        .controls { display: flex; gap: 10px; }
-        .control-btn {
-            background-color: #2a2a2a; color: white; border: 1px solid #444;
-            padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 13px;
+        .nav-home-btn { 
+            font-weight: 700; color: #8b5cf6; cursor: pointer; 
+            font-size: 18px; text-transform: uppercase; letter-spacing: 1px;
         }
-        .control-btn:hover { background-color: #333; border-color: #4CAF50; }
+        .panic-info { font-size: 12px; color: #6b7280; background: #20202b; padding: 4px 10px; border-radius: 4px; }
 
-        /* Core Layout States */
-        .view-section { display: none; flex: 1; width: 100%; height: 100%; overflow: auto; }
-        .view-section.active { display: flex; }
+        /* Content Container Toggle Views */
+        .view-panel { display: none; flex: 1; width: 100%; height: 100%; overflow: auto; }
+        .view-panel.active { display: flex; }
 
-        /* The Game Grid Section */
-        #grid-view {
-            padding: 30px; display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 25px; align-content: start;
+        /* MonkeyGG Game Cards Layout Grid */
+        #grid-layout {
+            padding: 40px; display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px; align-content: start; justify-content: center;
         }
         
-        /* Game Selection Cards */
-        .game-card {
-            background-color: #1e1e1e; border: 2px solid #2d2d2d; border-radius: 8px;
-            overflow: hidden; cursor: pointer; transition: transform 0.2s, border-color 0.2s;
-            display: flex; flex-direction: column;
+        /* Interactive Game Tiles */
+        .monkey-card {
+            background-color: #16161c; border: 1px solid #23232f; border-radius: 12px;
+            overflow: hidden; cursor: pointer; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+            display: flex; flex-direction: column; position: relative;
         }
-        .game-card:hover { transform: translateY(-5px); border-color: #4CAF50; }
-        .game-thumb { width: 100%; height: 130px; background-color: #2b2b2b; object-fit: cover; }
-        .game-title { padding: 12px; font-weight: 600; text-align: center; font-size: 14px; }
+        .monkey-card:hover { 
+            transform: scale(1.04); 
+            border-color: #8b5cf6; 
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.15);
+        }
+        .card-image { width: 100%; height: 120px; object-fit: cover; background: #20202b; }
+        .card-name { 
+            padding: 12px; font-weight: 600; text-align: center; font-size: 14px; 
+            color: #e2e8f0; background: #16161c;
+        }
 
-        /* Frame Viewport Section */
-        #frame-view { background: #000; overflow: hidden; }
+        /* Full Window Embedded App Canvas Frame */
+        #game-viewport { background: #000; overflow: hidden; }
         iframe { width: 100%; height: 100%; border: none; display: block; }
-
-        /* Custom Options Window Modals */
-        .settings-panel {
-            display: none; position: absolute; top: 60px; right: 20px;
-            background: #1e1e1e; border: 2px solid #333; border-radius: 8px;
-            padding: 20px; width: 300px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); z-index: 200;
-        }
-        .setting-item { margin-bottom: 12px; }
-        .setting-item label { display: block; font-size: 12px; color: #aaa; margin-bottom: 4px; }
-        .setting-item input, .setting-item select {
-            width: 100%; background: #2b2b2b; border: 1px solid #444; color: white; padding: 6px; border-radius: 4px;
-        }
     </style>
 </head>
 <body>
 
-    <!-- Header Navigation System -->
-    <div class="top-bar">
-        <span class="brand" onclick="showGridView()">🏠 Dashboard</span>
-        <div class="controls">
-            <button class="control-btn" onclick="toggleSettingsMenu()">⚙️ Settings</button>
-        </div>
+    <!-- Header Control Banner -->
+    <div class="top-navbar">
+        <span class="nav-home-btn" onclick="openHomeGrid()">🐵 MONKEY.GG Copy</span>
+        <span class="panic-info">Emergency Panic Key: Press <b>"Escape"</b> to instantly close</span>
     </div>
 
-    <!-- MAIN VIEW 1: Visual Game Grid Panel -->
-    <div id="grid-view" class="view-section active">
+    <!-- VIEW 1: Main Platform Game Selection Display Grid -->
+    <div id="grid-layout" class="view-panel active">
         
-        <!-- CARD 1: WORKING VECK.IO -->
-        <div class="game-card" onclick="launchGame('https://veck.io')">
-            <!-- Replace image src URL with any custom image thumbnail link you want -->
-            <img class="game-thumb" src="https://unsplash.com" alt="Veck">
-            <div class="game-title">Veck.io</div>
+        <!-- GAME TILE 1: AUTOMATED ROBLOX CLOUD PROXY -->
+        <div class="monkey-card" onclick="startAppFrame('https://nowgg.nl')">
+            <img class="card-image" src="https://unsplash.com" alt="Roblox">
+            <div class="card-name">Roblox (Now.gg Proxy)</div>
         </div>
 
-        <!-- CARD 2: MINECRAFT SLOT -->
-        <div class="game-card" onclick="launchGame('precision-client/index.html')">
-            <img class="game-thumb" src="https://unsplash.com" alt="MC">
-            <div class="game-title">Precision Client</div>
-        </div>
-
-        <!-- CARD 3: RETRO ARCADE SLOT -->
-        <div class="game-card" onclick="launchGame('slope/index.html')">
-            <img class="game-thumb" src="https://unsplash.com" alt="Slope">
-            <div class="game-title">Slope Unblocked</div>
+        <!-- GAME TILE 2: ACTIVE VECK.IO CANVAS ENGINE -->
+        <div class="monkey-card" onclick="startAppFrame('https://veck.io')">
+            <img class="card-image" src="https://unsplash.com" alt="Veck.io">
+            <div class="card-name">Veck.io (FPS)</div>
         </div>
 
     </div>
 
-    <!-- MAIN VIEW 2: Dedicated Fullscreen Game Player -->
-    <div id="frame-view" class="view-section">
-        <iframe id="active-frame" src="" allow="pointer-lock; fullscreen;"></iframe>
-    </div>
-
-    <!-- MODULAR SYSTEM PANEL OVERLAY -->
-    <div class="settings-panel" id="settings-menu">
-        <div class="setting-item">
-            <label>Tab Layout Mask</label>
-            <select onchange="applyTabMask(this.value)">
-                <option value="classroom">Google Classroom</option>
-                <option value="drive">Google Drive</option>
-            </select>
-        </div>
-        <div class="setting-item">
-            <label>Custom Title String</label>
-            <input type="text" id="title-string" value="Classes" oninput="changeTabTitle(this.value)">
-        </div>
-        <div class="setting-item">
-            <label>Panic Direct Route Key</label>
-            <input type="text" id="panic-key" value="Escape" oninput="updatePanicTrigger(this.value)">
-        </div>
-        <div class="setting-item">
-            <label>Panic Target Link</label>
-            <input type="text" id="panic-url" value="https://classroom.google.com" oninput="updatePanicRoute(this.value)">
-        </div>
-        <button class="control-btn" style="width:100%; background:#4CAF50;" onclick="toggleSettingsMenu()">Save Configurations</button>
+    <!-- VIEW 2: Operational Game Render Frame Screen -->
+    <div id="game-viewport" class="view-panel">
+        <iframe id="target-engine-frame" src="" allow="pointer-lock; fullscreen;"></iframe>
     </div>
 
     <script>
-        let config = { key: 'Escape', target: 'https://classroom.google.com' };
-
-        function showGridView() {
-            document.getElementById('frame-view').classList.remove('active');
-            document.getElementById('grid-view').classList.add('active');
-            document.getElementById('active-frame').src = ""; // Reset frame to save browser memory
-        }
-
-        function launchGame(url) {
-            document.getElementById('grid-view').classList.remove('active');
-            document.getElementById('frame-view').classList.add('active');
-            document.getElementById('active-frame').src = url;
-        }
-
-        function toggleSettingsMenu() {
-            let menu = document.getElementById('settings-menu');
-            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-        }
-
-        function changeTabTitle(val) { document.getElementById('tab-title').innerText = val; }
-        function updatePanicTrigger(val) { config.key = val; }
-        function updatePanicRoute(val) { config.target = val; }
-
-        function applyTabMask(preset) {
-            let icon = document.getElementById('tab-icon');
-            let inp = document.getElementById('title-string');
-            if (preset === 'classroom') {
-                inp.value = "Classes";
-                icon.href = "https://gstatic.com";
-            } else if (preset === 'drive') {
-                inp.value = "My Drive - Google Drive";
-                icon.href = "https://gstatic.com";
+        // Automatic Loop to Swamp the Tab History
+        window.onload = function() {
+            for (let i = 0; i < 10; i++) {
+                window.history.pushState({ systemIndex: i }, "", window.location.pathname + "?class=v" + i);
             }
-            changeTabTitle(inp.value);
+        };
+
+        function openHomeGrid() {
+            document.getElementById('game-viewport').classList.remove('active');
+            document.getElementById('grid-layout').classList.add('active');
+            document.getElementById('target-engine-frame').src = ""; // Clear memory cache
         }
 
-        // Catch Panic Event Trigger Actions
+        function startAppFrame(targetUrl) {
+            document.getElementById('grid-layout').classList.remove('active');
+            document.getElementById('game-viewport').classList.add('active');
+            document.getElementById('target-engine-frame').src = targetUrl;
+        }
+
+        // Global Panic Interceptor (Instantly Swaps Tab Location)
         window.addEventListener('keydown', function(e) {
-            if (e.key === config.key) {
-                window.location.replace(config.target);
+            if (e.key === 'Escape') {
+                window.location.replace('https://classroom.google.com');
             }
         });
     </script>
