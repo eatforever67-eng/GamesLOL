@@ -3,24 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Math Project</title>
+    
+    <!-- 1. TITLE SPOOFING: Changes the tab title to look like Google Classroom -->
+    <title>Classes</title>
+    
+    <!-- 2. ICON CLOAKING: Forces the official Google Classroom favicon onto your tab -->
+    <link rel="icon" type="image/png" href="https://gstatic.com">
+
     <style>
+        * { box-sizing: border-box; }
         body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #000;
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            font-family: 'Segoe UI', sans-serif; background-color: #121212; color: white;
+            overflow: hidden; display: flex; flex-direction: column;
         }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+        /* Hidden navigation panel */
+        .navbar {
+            background-color: #1e1e1e; padding: 10px 20px;
+            display: flex; gap: 15px; align-items: center; border-bottom: 2px solid #333;
         }
+        .logo { font-weight: bold; color: #4CAF50; margin-right: 15px; }
+        .nav-btn {
+            background-color: #333; color: white; border: none;
+            padding: 8px 16px; border-radius: 4px; cursor: pointer;
+            font-weight: 500; transition: background 0.2s;
+        }
+        .nav-btn:hover { background-color: #4CAF50; }
+        .nav-btn.active { background-color: #4CAF50; }
+        
+        /* 3. URL HIDING: Houses Roblox inside a full-screen frame block */
+        .game-container { flex: 1; width: 100%; height: 100%; background: #000; }
+        iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
-    <iframe src="https://veck.io/" allow="pointer-lock; fullscreen;"></iframe>
+
+    <!-- Tab Selection Menu -->
+    <div class="navbar">
+        <span class="logo">Google Drive Portal</span>
+        <button class="nav-btn active" onclick="loadSite('https://now.gg', this)">Roblox</button>
+        <button class="nav-btn" onclick="loadSite('https://veck.io', this)">Veck.io</button>
+        <button class="nav-btn" onclick="loadSite('https://crazygames.com', this)">CrazyGames</button>
+    </div>
+
+    <!-- The Sandbox Frame -->
+    <div class="game-container">
+        <iframe id="game-frame" src="https://now.gg" allow="pointer-lock; fullscreen;"></iframe>
+    </div>
+
+    <script>
+        // 4. HISTORY TRAPPING: Pushes continuous fake entries to swamp the back button session
+        function deployHistoryShield() {
+            for (let i = 0; i < 15; i++) {
+                window.history.pushState({ page: i }, "Classes", window.location.pathname + "?authuser=0&v=" + i);
+            }
+        }
+        
+        // Execute trapping loop when the page initializes
+        window.onload = function() {
+            deployHistoryShield();
+        };
+
+        function loadSite(url, button) {
+            document.getElementById('game-frame').src = url;
+            
+            let buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            // Refresh history shield on click to preserve state masking
+            deployHistoryShield();
+        }
+    </script>
+
 </body>
 </html>
